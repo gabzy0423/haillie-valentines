@@ -203,23 +203,24 @@ export default function ValentinesPinEntry() {
         
         {/* Main content */}
         <div className="animate-cardEnter" style={{
-          maxWidth: '28rem',
+          maxWidth: '420px',
           width: '90%',
-          position: 'relative'
+          position: 'relative',
+          padding: '0 1rem'
         }}>
           {/* Top heart */}
           <div className="animate-heartbeat" style={{
             position: 'absolute',
-            top: '-3rem',
+            top: '-2rem',
             left: '50%',
-            fontSize: '3.75rem'
+            fontSize: 'clamp(2.5rem, 10vw, 3.75rem)'
           }}>
             💕
           </div>
           
           {/* Title */}
           <h1 className="font-display" style={{
-            fontSize: '3rem',
+            fontSize: 'clamp(2rem, 8vw, 3rem)',
             fontWeight: 700,
             textAlign: 'center',
             background: 'linear-gradient(135deg, #ec4899 0%, #be123c 100%)',
@@ -235,7 +236,7 @@ export default function ValentinesPinEntry() {
           <p className="font-body" style={{
             textAlign: 'center',
             color: '#be123c',
-            fontSize: '1.125rem',
+            fontSize: 'clamp(1rem, 3vw, 1.125rem)',
             marginBottom: '2.5rem',
             letterSpacing: '0.025em'
           }}>
@@ -248,21 +249,21 @@ export default function ValentinesPinEntry() {
             backdropFilter: 'blur(10px)',
             border: `2px solid ${error ? 'rgba(236, 72, 153, 0.6)' : 'rgba(249, 168, 212, 0.4)'}`,
             borderRadius: '1rem',
-            padding: '1.5rem',
+            padding: 'clamp(1rem, 3vw, 1.5rem)',
             marginBottom: '2.25rem',
-            minHeight: '5rem',
+            minHeight: 'clamp(4rem, 10vw, 5rem)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '0.75rem'
+            gap: 'clamp(0.5rem, 1.5vw, 0.75rem)'
           }}>
             {[...Array(8)].map((_, i) => (
               <div 
                 key={i}
                 className={i < pin.length && error ? 'animate-errorPulse' : ''}
                 style={{
-                  width: '1rem',
-                  height: '1rem',
+                  width: 'clamp(0.75rem, 2vw, 1rem)',
+                  height: 'clamp(0.75rem, 2vw, 1rem)',
                   borderRadius: '50%',
                   background: i < pin.length ? '#be123c' : 'transparent',
                   transform: i < pin.length ? 'scale(1)' : 'scale(0)',
@@ -290,7 +291,7 @@ export default function ValentinesPinEntry() {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '1rem',
+            gap: 'clamp(0.75rem, 2vw, 1rem)',
             marginBottom: '1.25rem'
           }}>
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
@@ -303,8 +304,8 @@ export default function ValentinesPinEntry() {
                   backdropFilter: 'blur(10px)',
                   border: '2px solid rgba(249, 168, 212, 0.5)',
                   borderRadius: '1.125rem',
-                  padding: '1.25rem',
-                  fontSize: '1.875rem',
+                  padding: 'clamp(0.75rem, 3vw, 1.25rem)',
+                  fontSize: 'clamp(1.5rem, 5vw, 1.875rem)',
                   fontWeight: 600,
                   color: '#be123c',
                   cursor: 'pointer',
@@ -339,8 +340,8 @@ export default function ValentinesPinEntry() {
                 backdropFilter: 'blur(10px)',
                 border: '2px solid rgba(249, 168, 212, 0.5)',
                 borderRadius: '1.125rem',
-                padding: '1.25rem',
-                fontSize: '1.875rem',
+                padding: 'clamp(0.75rem, 3vw, 1.25rem)',
+                fontSize: 'clamp(1.5rem, 5vw, 1.875rem)',
                 fontWeight: 600,
                 color: '#be123c',
                 cursor: 'pointer',
@@ -372,7 +373,7 @@ export default function ValentinesPinEntry() {
           <div style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
-            gap: '1rem'
+            gap: 'clamp(0.75rem, 2vw, 1rem)'
           }}>
             <button
               onClick={handleDelete}
@@ -382,8 +383,8 @@ export default function ValentinesPinEntry() {
                 backdropFilter: 'blur(10px)',
                 border: '2px solid rgba(249, 168, 212, 0.5)',
                 borderRadius: '1.125rem',
-                padding: '1rem',
-                fontSize: '1.125rem',
+                padding: 'clamp(0.75rem, 2.5vw, 1rem)',
+                fontSize: 'clamp(1rem, 3vw, 1.125rem)',
                 color: '#be123c',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
@@ -410,8 +411,8 @@ export default function ValentinesPinEntry() {
                 background: pin.length === 8 ? 'linear-gradient(135deg, #ec4899 0%, #be123c 100%)' : 'rgba(236, 72, 153, 0.5)',
                 border: '2px solid #be123c',
                 borderRadius: '1.125rem',
-                padding: '1rem',
-                fontSize: '1.125rem',
+                padding: 'clamp(0.75rem, 2.5vw, 1rem)',
+                fontSize: 'clamp(1rem, 3vw, 1.125rem)',
                 color: 'white',
                 fontWeight: 600,
                 cursor: pin.length === 8 ? 'pointer' : 'not-allowed',
