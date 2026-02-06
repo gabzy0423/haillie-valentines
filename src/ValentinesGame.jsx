@@ -1,0 +1,305 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import herPortrait from './assets/images/game/she.jpg'; // Her picture
+import myPortrait from './assets/images/game/he.jpg';  // Your picture
+
+export default function ValentinesGame() {
+  const navigate = useNavigate();
+  const [birdPos, setBirdPos] = useState(250);
+  const [gameStarted, setGameStarted] = useState(false);
+  const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
+  const [pipePos, setPipePos] = useState(400);
+  const [pipeHeight, setPipeHeight] = useState(150);
+  const [hasWon, setHasWon] = useState(false);
+  const [trail, setTrail] = useState([]);
+
+  const BIRD_SIZE = 55;
+  const GRAVITY = 3.5;
+  const JUMP_STRENGTH = 60;
+  const PIPE_WIDTH = 60;
+  const GAP = 180;
+  const WINNING_SCORE = 10;
+
+  // ── NEW: RESET GAME FUNCTION ──
+  // This resets the state without reloading the page, keeping the music playing
+  const resetGame = () => {
+    setBirdPos(250);
+    setScore(0);
+    setGameOver(false);
+    setHasWon(false);
+    setGameStarted(false);
+    setPipePos(400);
+    setTrail([]);
+  };
+
+  // ── Game Loop ──
+  useEffect(() => {
+    let timer;
+    if (gameStarted && !gameOver && !hasWon) {
+      timer = setInterval(() => {
+        setBirdPos((pos) => pos + GRAVITY);
+        
+        // Create Trail Effect
+        setTrail((prev) => [
+          ...prev.slice(-8), 
+          { id: Date.now(), top: birdPos + 20, left: 65 }
+        ]);
+
+        setPipePos((pos) => {
+          if (pos <= -PIPE_WIDTH) {
+            const newScore = score + 1;
+            setScore(newScore);
+            if (newScore >= WINNING_SCORE) setHasWon(true);
+            setPipeHeight(Math.floor(Math.random() * 200) + 50);
+            return 400;
+          }
+          return pos - 6;
+        });
+      }, 24);
+    }
+    return () => clearInterval(timer);
+  }, [gameStarted, gameOver, hasWon, score, birdPos]);
+
+  // ── Collision Detection ──
+  useEffect(() => {
+    if (!gameStarted || gameOver || hasWon) return;
+
+    const birdRight = 50 + BIRD_SIZE - 10;
+    const birdLeft = 50 + 10;
+    const birdTop = birdPos + 10;
+    const birdBottom = birdPos + BIRD_SIZE - 10;
+
+    const pipeLeft = pipePos;
+    const pipeRight = pipePos + PIPE_WIDTH;
+
+    if (birdRight > pipeLeft && birdLeft < pipeRight) {
+      if (birdTop < pipeHeight || birdBottom > pipeHeight + GAP) {
+        setGameOver(true);
+      }
+    }
+
+    if (birdPos > 545 || birdPos < -10) {
+      setGameOver(true);
+    }
+  }, [birdPos, pipePos, pipeHeight, gameStarted, gameOver, hasWon]);
+
+  const handleJump = () => {
+    if (!gameStarted) setGameStarted(true);
+    if (!gameOver && !hasWon) setBirdPos((pos) => pos - JUMP_STRENGTH);
+  };
+
+  return (
+    <div onClick={handleJump} style={containerStyle}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap');
+        
+        * { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
+
+        html, body {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          background: #ec4899;
+        }
+
+        @keyframes fadeOut { from { opacity: 0.8; transform: scale(1); } to { opacity: 0; transform: scale(0.5); } }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+        
+        @keyframes cloudMove {
+          from { transform: translateX(400px); }
+          to { transform: translateX(-150px); }
+        }
+
+        .cloud {
+          position: absolute;
+          background: rgba(255, 255, 255, 0.4);
+          filter: blur(8px);
+          border-radius: 50px;
+          pointer-events: none;
+        }
+      `}</style>
+
+      <h2 style={scoreStyle}>Score: {score} / {WINNING_SCORE}</h2>
+
+      <div style={gameAreaStyle}>
+        {/* Clouds */}
+        <div className="cloud" style={{ width: '100px', height: '30px', top: '10%', animation: 'cloudMove 15s linear infinite' }} />
+        <div className="cloud" style={{ width: '120px', height: '40px', top: '40%', animation: 'cloudMove 20s linear infinite 2s' }} />
+        <div className="cloud" style={{ width: '80px', height: '25px', top: '70%', animation: 'cloudMove 12s linear infinite 5s' }} />
+
+        {/* Trail */}
+        {trail.map((t) => (
+          <div key={t.id} style={{
+            position: 'absolute', top: t.top, left: t.left,
+            fontSize: '15px', pointerEvents: 'none',
+            animation: 'fadeOut 0.5s forwards'
+          }}>💗</div>
+        ))}
+
+        {/* Her Portrait */}
+        <div style={{
+          position: 'absolute', left: '50px', top: birdPos,
+          width: BIRD_SIZE, height: BIRD_SIZE, borderRadius: '50%',
+          border: '3px solid #fff', overflow: 'hidden', zIndex: 5,
+          transition: 'top 0.1s ease-out', boxShadow: '0 8px 20px rgba(0,0,0,0.2)'
+        }}>
+          <img 
+            src={herPortrait} 
+            style={{width:'100%', height:'100%', objectFit:'cover', objectPosition: 'center 20%'}} 
+            alt="Her" 
+          />
+        </div>
+
+        {/* Pipes */}
+        <div style={{...pipeStyle, left: pipePos, height: pipeHeight, top: 0, borderRadius: '0 0 15px 15px', borderBottom: '4px solid rgba(0,0,0,0.1)'}} />
+        <div style={{...pipeStyle, left: pipePos, top: pipeHeight + GAP, height: 600, borderRadius: '15px 15px 0 0', borderTop: '4px solid rgba(0,0,0,0.1)'}} />
+
+        {/* Start Overlay */}
+        {!gameStarted && !gameOver && !hasWon && (
+          <div style={overlayStyle}>
+             <div style={{fontSize: '3rem', marginBottom: '10px'}}>☁️</div>
+             <p style={{fontWeight: '800', fontSize: '1.2rem', margin: 0}}>TAP TO FLY</p>
+             <p style={{fontSize: '0.9rem', opacity: 0.8}}>Reach 10 to win my heart!</p>
+          </div>
+        )}
+
+        {/* Game Over Overlay */}
+        {gameOver && !hasWon && (
+          <div style={overlayStyle}>
+            <p style={{fontWeight: '800', fontSize: '1.5rem', margin: '0 0 10px 0'}}>OOPS! 💔</p>
+            <p style={{margin: '0 0 15px 0'}}>Try again, beautiful!</p>
+            {/* CLICKING THIS NOW CALLS resetGame() INSTEAD OF RELOADING */}
+            <button onClick={(e) => { e.stopPropagation(); resetGame(); }} style={btnStyle}>Restart Game</button>
+          </div>
+        )}
+
+        {/* Victory Overlay */}
+        {hasWon && (
+          <div style={{...overlayStyle, background: 'rgba(190, 18, 60, 0.95)'}}>
+            <div style={portraitContainer}>
+              <img src={myPortrait} style={{width:'100%', height:'100%', objectFit:'cover'}} alt="Me" />
+            </div>
+            <h1 style={{fontFamily: "'Playfair Display', serif", fontSize: '1.8rem', color: '#fff', margin: '0 0 5px 0'}}>You Won My Heart! 💖</h1>
+            <p style={{fontSize: '1rem', marginBottom: '15px'}}>I'm yours forever.</p>
+            <button onClick={(e) => { e.stopPropagation(); navigate('/menu'); }} style={{...btnStyle, background: '#fff', color: '#be123c'}}>Claim Your Prize</button>
+            
+            {/* Confetti */}
+            {[...Array(25)].map((_, i) => (
+              <div key={i} style={{
+                position: 'absolute', top: '-10%', left: `${Math.random() * 100}%`,
+                fontSize: '1.5rem', animation: `fall ${2 + Math.random() * 3}s linear infinite`
+              }}>✨</div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Bottom Navigation */}
+      <button 
+        onClick={(e) => { e.stopPropagation(); navigate('/menu'); }} 
+        style={bottomBackBtnStyle}
+      >
+        ← Back to Menu
+      </button>
+    </div>
+  );
+}
+
+// ── Styles ──
+const containerStyle = {
+  height: '100vh',
+  width: '100vw',
+  margin: 0,
+  padding: 0,
+  background: 'linear-gradient(145deg, #fce7f3 0%, #ec4899 100%)',
+  backgroundAttachment: 'fixed',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  overflow: 'hidden',
+  touchAction: 'none'
+};
+
+const gameAreaStyle = {
+  width: '350px',
+  height: '600px',
+  background: 'rgba(255, 255, 255, 0.15)',
+  backdropFilter: 'blur(12px)',
+  border: '2px solid rgba(255, 255, 255, 0.5)',
+  borderRadius: '30px',
+  position: 'relative',
+  overflow: 'hidden',
+  boxShadow: '0 20px 50px rgba(0,0,0,0.1)'
+};
+
+const portraitContainer = {
+  width: '130px',
+  height: '130px',
+  borderRadius: '50%',
+  border: '5px solid white',
+  overflow: 'hidden',
+  marginBottom: '15px',
+  boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+};
+
+const pipeStyle = { 
+  position: 'absolute', 
+  width: 60, 
+  background: 'linear-gradient(to bottom, #be123c, #9f1239)',
+  boxShadow: '0 0 10px rgba(0,0,0,0.2)'
+};
+
+const overlayStyle = {
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: 'rgba(0,0,0,0.5)',
+  color: '#fff',
+  textAlign: 'center',
+  padding: '20px',
+  zIndex: 10
+};
+
+const scoreStyle = { 
+  fontSize: '1.8rem',
+  fontWeight: '800', 
+  color: '#fff', 
+  margin: '0 0 15px 0', 
+  textShadow: '0 4px 10px rgba(0,0,0,0.3)' 
+};
+
+const btnStyle = { 
+  marginTop: '0px', 
+  padding: '12px 30px', 
+  borderRadius: '50px', 
+  border: 'none', 
+  background: '#fff', 
+  color: '#ec4899', 
+  fontWeight: '800', 
+  fontSize: '1rem',
+  cursor: 'pointer',
+  boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
+  transition: 'transform 0.2s'
+};
+
+const bottomBackBtnStyle = {
+  marginTop: '30px', 
+  background: 'rgba(255, 255, 255, 0.3)', 
+  backdropFilter: 'blur(10px)',
+  border: '1px solid rgba(255,255,255,0.4)', 
+  padding: '10px 30px', 
+  borderRadius: '50px',
+  color: 'white', 
+  fontSize: '0.9rem',
+  fontWeight: '600',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  position: 'relative', 
+  zIndex: 20
+};
