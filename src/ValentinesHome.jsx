@@ -338,7 +338,7 @@ export default function ValentinesHome() {
         <div className={r(6)}>
           <button 
             className="valentine-cta"
-            onClick={() => navigate('/menu')}
+            onClick={() => navigate('/question')}
           >
             Enter our story &nbsp;→
           </button>

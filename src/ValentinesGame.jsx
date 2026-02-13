@@ -13,6 +13,7 @@ export default function ValentinesGame() {
   const [pipeHeight, setPipeHeight] = useState(150);
   const [hasWon, setHasWon] = useState(false);
   const [trail, setTrail] = useState([]);
+  const [showNextGameModal, setShowNextGameModal] = useState(false);
 
   const BIRD_SIZE = 55;
   const GRAVITY = 3.5;
@@ -21,8 +22,7 @@ export default function ValentinesGame() {
   const GAP = 180;
   const WINNING_SCORE = 10;
 
-  // ── NEW: RESET GAME FUNCTION ──
-  // This resets the state without reloading the page, keeping the music playing
+  // ── RESET GAME FUNCTION ──
   const resetGame = () => {
     setBirdPos(250);
     setScore(0);
@@ -31,6 +31,7 @@ export default function ValentinesGame() {
     setGameStarted(false);
     setPipePos(400);
     setTrail([]);
+    setShowNextGameModal(false);
   };
 
   // ── Game Loop ──
@@ -50,7 +51,11 @@ export default function ValentinesGame() {
           if (pos <= -PIPE_WIDTH) {
             const newScore = score + 1;
             setScore(newScore);
-            if (newScore >= WINNING_SCORE) setHasWon(true);
+            if (newScore >= WINNING_SCORE) {
+              setHasWon(true);
+              // Show next game modal after a brief celebration delay
+              setTimeout(() => setShowNextGameModal(true), 2500);
+            }
             setPipeHeight(Math.floor(Math.random() * 200) + 50);
             return 400;
           }
@@ -92,7 +97,7 @@ export default function ValentinesGame() {
   return (
     <div onClick={handleJump} style={containerStyle}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap');
         
         * { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
 
@@ -112,6 +117,32 @@ export default function ValentinesGame() {
           to { transform: translateX(-150px); }
         }
 
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+
+        @keyframes heartbeat {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+        }
+
+        @keyframes slideUp {
+          from { 
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+          }
+          to { 
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+        }
+
         .cloud {
           position: absolute;
           background: rgba(255, 255, 255, 0.4);
@@ -121,7 +152,21 @@ export default function ValentinesGame() {
         }
       `}</style>
 
-      <h2 style={scoreStyle}>Score: {score} / {WINNING_SCORE}</h2>
+      {/* ── HEADING SECTION ── */}
+      <div style={headingContainerStyle}>
+        <div style={heartIconStyle}>💖</div>
+        <h1 style={mainTitleStyle}>Flappy Love</h1>
+        <p style={subtitleStyle}>Win My Heart Challenge</p>
+      </div>
+
+      {/* ── SCORE DISPLAY ── */}
+      <div style={scoreContainerStyle}>
+        <div style={scoreStyle}>
+          <span style={{fontSize: '1rem', fontWeight: '600', opacity: 0.9}}>Score: </span>
+          <span style={{fontSize: '1.8rem', fontWeight: '900'}}>{score}</span>
+          <span style={{fontSize: '1rem', fontWeight: '600', opacity: 0.9}}> / {WINNING_SCORE}</span>
+        </div>
+      </div>
 
       <div style={gameAreaStyle}>
         {/* Clouds */}
@@ -170,20 +215,18 @@ export default function ValentinesGame() {
           <div style={overlayStyle}>
             <p style={{fontWeight: '800', fontSize: '1.5rem', margin: '0 0 10px 0'}}>OOPS! 💔</p>
             <p style={{margin: '0 0 15px 0'}}>Try again, beautiful!</p>
-            {/* CLICKING THIS NOW CALLS resetGame() INSTEAD OF RELOADING */}
             <button onClick={(e) => { e.stopPropagation(); resetGame(); }} style={btnStyle}>Restart Game</button>
           </div>
         )}
 
         {/* Victory Overlay */}
-        {hasWon && (
+        {hasWon && !showNextGameModal && (
           <div style={{...overlayStyle, background: 'rgba(190, 18, 60, 0.95)'}}>
             <div style={portraitContainer}>
               <img src={myPortrait} style={{width:'100%', height:'100%', objectFit:'cover'}} alt="Me" />
             </div>
             <h1 style={{fontFamily: "'Playfair Display', serif", fontSize: '1.8rem', color: '#fff', margin: '0 0 5px 0'}}>You Won My Heart! 💖</h1>
             <p style={{fontSize: '1rem', marginBottom: '15px'}}>I'm yours forever.</p>
-            <button onClick={(e) => { e.stopPropagation(); navigate('/menu'); }} style={{...btnStyle, background: '#fff', color: '#be123c'}}>Claim Your Prize</button>
             
             {/* Confetti */}
             {[...Array(25)].map((_, i) => (
@@ -192,6 +235,126 @@ export default function ValentinesGame() {
                 fontSize: '1.5rem', animation: `fall ${2 + Math.random() * 3}s linear infinite`
               }}>✨</div>
             ))}
+          </div>
+        )}
+
+        {/* Next Game Modal */}
+        {showNextGameModal && (
+          <div 
+            onClick={(e) => e.stopPropagation()} 
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(236, 72, 153, 0.98)',
+              backdropFilter: 'blur(10px)',
+              padding: '30px',
+              zIndex: 20,
+              animation: 'slideUp 0.5s ease-out'
+            }}
+          >
+            {/* Floating hearts around modal */}
+            {[...Array(12)].map((_, i) => (
+              <div key={i} style={{
+                position: 'absolute',
+                fontSize: '1.5rem',
+                animation: `float ${2 + i * 0.3}s ease-in-out infinite`,
+                left: `${10 + i * 7}%`,
+                top: `${20 + (i % 3) * 25}%`,
+                opacity: 0.6
+              }}>💕</div>
+            ))}
+
+            <div style={{
+              fontSize: '4rem',
+              marginBottom: '15px',
+              animation: 'heartbeat 1.2s ease-in-out infinite'
+            }}>🎮</div>
+
+            <h2 style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: '1.8rem',
+              color: '#fff',
+              margin: '0 0 10px 0',
+              textAlign: 'center',
+              textShadow: '0 4px 10px rgba(0,0,0,0.3)'
+            }}>
+              Ready for the Next Challenge?
+            </h2>
+
+            <p style={{
+              fontSize: '1.1rem',
+              color: 'rgba(255, 255, 255, 0.95)',
+              margin: '0 0 25px 0',
+              textAlign: 'center',
+              fontWeight: '500'
+            }}>
+              Do You Know Me? 💝<br/>
+              <span style={{fontSize: '0.9rem', opacity: 0.9}}>(Love Quiz)</span>
+            </p>
+
+            <button 
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                navigate('/quiz'); 
+              }} 
+              style={{
+                padding: '14px 40px',
+                borderRadius: '50px',
+                border: '3px solid #fff',
+                background: '#fff',
+                color: '#ec4899',
+                fontWeight: '800',
+                fontSize: '1.1rem',
+                cursor: 'pointer',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+                transition: 'all 0.3s ease',
+                animation: 'pulse 2s ease-in-out infinite',
+                marginBottom: '15px'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'scale(1.05)';
+                e.target.style.boxShadow = '0 15px 40px rgba(0,0,0,0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'scale(1)';
+                e.target.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+              }}
+            >
+              Let's Play! 💖
+            </button>
+
+            <button 
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                navigate('/menu'); 
+              }} 
+              style={{
+                padding: '10px 30px',
+                borderRadius: '50px',
+                border: '2px solid rgba(255,255,255,0.6)',
+                background: 'rgba(255,255,255,0.2)',
+                backdropFilter: 'blur(10px)',
+                color: '#fff',
+                fontWeight: '600',
+                fontSize: '0.95rem',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = 'rgba(255,255,255,0.3)';
+                e.target.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = 'rgba(255,255,255,0.2)';
+                e.target.style.transform = 'translateY(0)';
+              }}
+            >
+              Back to Menu
+            </button>
           </div>
         )}
       </div>
@@ -220,7 +383,64 @@ const containerStyle = {
   alignItems: 'center',
   justifyContent: 'center',
   overflow: 'hidden',
-  touchAction: 'none'
+  touchAction: 'none',
+  paddingTop: '20px'
+};
+
+const headingContainerStyle = {
+  textAlign: 'center',
+  marginBottom: '10px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  position: 'relative',
+  zIndex: 20
+};
+
+const heartIconStyle = {
+  fontSize: '2.5rem',
+  animation: 'heartbeat 1.5s ease-in-out infinite',
+  marginBottom: '5px',
+  filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+};
+
+const mainTitleStyle = {
+  fontFamily: "'Playfair Display', serif",
+  fontSize: '2.5rem',
+  fontWeight: '900',
+  color: '#fff',
+  margin: '0',
+  textShadow: '0 6px 15px rgba(0,0,0,0.3)',
+  letterSpacing: '1px',
+  lineHeight: '1'
+};
+
+const subtitleStyle = {
+  fontSize: '0.9rem',
+  fontWeight: '400',
+  color: 'rgba(255, 255, 255, 0.95)',
+  margin: '5px 0 0 0',
+  letterSpacing: '2px',
+  textTransform: 'uppercase',
+  textShadow: '0 2px 8px rgba(0,0,0,0.2)'
+};
+
+const scoreContainerStyle = {
+  marginBottom: '15px',
+  position: 'relative',
+  zIndex: 20
+};
+
+const scoreStyle = { 
+  background: 'rgba(255, 255, 255, 0.25)',
+  backdropFilter: 'blur(10px)',
+  padding: '8px 25px',
+  borderRadius: '50px',
+  border: '2px solid rgba(255, 255, 255, 0.4)',
+  color: '#fff',
+  textShadow: '0 2px 6px rgba(0,0,0,0.2)',
+  boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
+  display: 'inline-block'
 };
 
 const gameAreaStyle = {
@@ -266,14 +486,6 @@ const overlayStyle = {
   zIndex: 10
 };
 
-const scoreStyle = { 
-  fontSize: '1.8rem',
-  fontWeight: '800', 
-  color: '#fff', 
-  margin: '0 0 15px 0', 
-  textShadow: '0 4px 10px rgba(0,0,0,0.3)' 
-};
-
 const btnStyle = { 
   marginTop: '0px', 
   padding: '12px 30px', 
@@ -289,7 +501,7 @@ const btnStyle = {
 };
 
 const bottomBackBtnStyle = {
-  marginTop: '30px', 
+  marginTop: '15px', 
   background: 'rgba(255, 255, 255, 0.3)', 
   backdropFilter: 'blur(10px)',
   border: '1px solid rgba(255,255,255,0.4)', 

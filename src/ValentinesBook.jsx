@@ -15,7 +15,7 @@ export default function DigitalScrapbook() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
+    
   // Scrapbook pages - customize these with your memories!
   const PAGES = [
     {

@@ -153,358 +153,421 @@ export default function ReasonWhyILoveYou() {
   const current = REASONS[currentReason];
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#FFB6C1',
-      backgroundImage: `
-        radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.8) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 192, 203, 0.6) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(255, 105, 180, 0.4) 0%, transparent 50%),
-        linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 50%, #FFB6C1 100%)
-      `,
-      padding: isMobile ? '1.5rem' : '2rem',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Floating hearts background */}
-      {[...Array(15)].map((_, i) => (
-        <div
-          key={i}
-          style={{
-            position: 'absolute',
-            fontSize: isMobile ? '1.5rem' : '2rem',
-            animation: `float ${5 + i}s ease-in-out infinite`,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            opacity: 0.3,
-            pointerEvents: 'none'
-          }}
-        >
-          💖
-        </div>
-      ))}
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+        
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
 
-      {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: isMobile ? '1.5rem' : '2rem', zIndex: 1 }}>
-        <h1 style={{
-          fontSize: isMobile ? '2rem' : '3rem',
-          fontFamily: "'Poppins', sans-serif",
-          fontWeight: '700',
-          color: '#C71585',
-          marginBottom: '0.5rem',
-          textShadow: '2px 2px 4px rgba(255, 255, 255, 0.5)'
-        }}>
-          Why I Love You
-        </h1>
-        <p style={{
-          fontSize: isMobile ? '1rem' : '1.2rem',
-          fontFamily: "'Poppins', sans-serif",
-          color: '#D8527B'
-        }}>
-          Let me count the ways... 💕
-        </p>
-      </div>
+        body, html, #root {
+          background: #FFB6C1 !important;
+          background-image: 
+            radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.8) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(255, 192, 203, 0.6) 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(255, 105, 180, 0.4) 0%, transparent 50%),
+            linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 50%, #FFB6C1 100%) !important;
+          min-height: 100vh !important;
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden;
+        }
 
-      {/* Progress Bar */}
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(10deg);
+          }
+        }
+
+        @keyframes petalFall {
+          0% {
+            transform: translateY(-100px) rotate(0deg) translateX(0);
+            opacity: 0;
+          }
+          10% {
+            opacity: 0.3;
+          }
+          100% {
+            transform: translateY(120vh) rotate(360deg) translateX(-25px);
+            opacity: 0;
+          }
+        }
+      `}</style>
+
       <div style={{
+        minHeight: '100vh',
         width: '100%',
-        maxWidth: '600px',
-        height: '4px',
-        background: 'rgba(255, 255, 255, 0.5)',
-        borderRadius: '10px',
-        marginBottom: isMobile ? '1.5rem' : '2rem',
-        overflow: 'hidden',
-        zIndex: 1
-      }}>
-        <div style={{
-          width: `${((currentReason + 1) / REASONS.length) * 100}%`,
-          height: '100%',
-          background: 'linear-gradient(90deg, #ec4899, #fbbf24)',
-          transition: 'width 0.3s ease',
-          borderRadius: '10px'
-        }} />
-      </div>
-
-      {/* Main Card */}
-      <div style={{
-        width: '100%',
-        maxWidth: '600px',
-        background: 'rgba(255, 255, 255, 0.9)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        borderRadius: '30px',
-        padding: isMobile ? '2rem' : '3rem',
-        boxShadow: '0 20px 60px rgba(199, 21, 133, 0.3)',
-        border: '2px solid rgba(255, 255, 255, 1)',
+        background: '#FFB6C1',
+        backgroundImage: `
+          radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.8) 0%, transparent 50%),
+          radial-gradient(circle at 80% 70%, rgba(255, 192, 203, 0.6) 0%, transparent 50%),
+          radial-gradient(circle at 40% 80%, rgba(255, 105, 180, 0.4) 0%, transparent 50%),
+          linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 50%, #FFB6C1 100%)
+        `,
+        padding: isMobile ? '1.5rem' : '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
         position: 'relative',
-        overflow: 'hidden',
-        transform: isFlipping ? 'rotateY(90deg)' : 'rotateY(0deg)',
-        transition: 'transform 0.3s ease',
-        zIndex: 1
+        overflow: 'hidden'
       }}>
-        {/* Gradient overlay */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '200px',
-          background: current.color,
-          opacity: 0.2,
-          borderRadius: '30px 30px 0 0'
-        }} />
+        {/* Floating hearts background */}
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              fontSize: isMobile ? '1.5rem' : '2rem',
+              animation: `float ${5 + i}s ease-in-out infinite`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              opacity: 0.3,
+              pointerEvents: 'none'
+            }}
+          >
+            💖
+          </div>
+        ))}
 
-        {/* Image/Video Display */}
+        {/* Falling petals */}
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={`petal-${i}`}
+            style={{
+              position: 'fixed',
+              top: '-80px',
+              left: `${(i / 20) * 100 + (Math.random() * 5 - 2.5)}%`,
+              fontSize: `${0.8 + Math.random() * 1.2}rem`,
+              pointerEvents: 'none',
+              zIndex: 1,
+              opacity: 0.25,
+              animation: `petalFall ${8 + Math.random() * 8}s ${Math.random() * 12}s infinite linear`,
+            }}
+          >
+            {['🌸','🌺','💐','🌷','💕'][Math.floor(Math.random() * 5)]}
+          </div>
+        ))}
+
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: isMobile ? '1rem' : '1.5rem', zIndex: 1 }}>
+          <h1 style={{
+            fontSize: isMobile ? '1.8rem' : '2.5rem',
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: '700',
+            color: '#fff',
+            marginBottom: '0.3rem',
+            textShadow: '0 3px 20px rgba(190, 18, 60, 0.4), 0 1px 3px rgba(0, 0, 0, 0.1)'
+          }}>
+            Why I Love You
+          </h1>
+          <p style={{
+            fontSize: isMobile ? '0.95rem' : '1.1rem',
+            fontFamily: "'Poppins', sans-serif",
+            fontStyle: 'italic',
+            color: 'rgba(255, 255, 255, 0.9)',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+          }}>
+            Let me count the ways... 💕
+          </p>
+        </div>
+
+        {/* Progress Bar */}
         <div style={{
           width: '100%',
-          height: isMobile ? '250px' : '300px',
-          marginBottom: '2rem',
-          borderRadius: '20px',
+          maxWidth: '600px',
+          height: '4px',
+          background: 'rgba(255, 255, 255, 0.3)',
+          borderRadius: '10px',
+          marginBottom: isMobile ? '1rem' : '1.5rem',
           overflow: 'hidden',
-          position: 'relative',
-          boxShadow: '0 10px 30px rgba(199, 21, 133, 0.3)'
+          zIndex: 1,
+          boxShadow: '0 2px 8px rgba(199, 21, 133, 0.2)'
         }}>
-          {current.isVideo ? (
-            <video
-              src={current.media}
-              autoPlay
-              loop
-              muted
-              playsInline
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
-            />
-          ) : (
-            <img
-              src={current.image}
-              alt={current.title}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
-            />
-          )}
+          <div style={{
+            width: `${((currentReason + 1) / REASONS.length) * 100}%`,
+            height: '100%',
+            background: 'linear-gradient(90deg, #ec4899, #fbbf24)',
+            transition: 'width 0.3s ease',
+            borderRadius: '10px',
+            boxShadow: '0 0 10px rgba(236, 72, 153, 0.5)'
+          }} />
         </div>
 
-        {/* Number Badge */}
+        {/* Main Card */}
         <div style={{
-          position: 'absolute',
-          top: isMobile ? '1.5rem' : '2rem',
-          right: isMobile ? '1.5rem' : '2rem',
-          width: isMobile ? '50px' : '60px',
-          height: isMobile ? '50px' : '60px',
-          borderRadius: '50%',
-          background: current.color,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: isMobile ? '1.2rem' : '1.5rem',
-          fontWeight: '700',
-          color: 'white',
-          boxShadow: '0 5px 15px rgba(199, 21, 133, 0.3)',
+          width: '100%',
+          maxWidth: '600px',
+          background: 'rgba(255, 255, 255, 0.18)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderRadius: '2.2rem',
+          padding: isMobile ? '1.5rem' : '2.5rem',
+          boxShadow: '0 0 32px rgba(199, 21, 133, 0.25), 0 8px 50px rgba(236, 72, 153, 0.15)',
+          border: '2px solid rgba(255, 255, 255, 0.4)',
+          position: 'relative',
+          overflow: 'hidden',
+          transform: isFlipping ? 'rotateY(90deg)' : 'rotateY(0deg)',
+          transition: 'transform 0.3s ease',
           zIndex: 2
         }}>
-          {current.number}
-        </div>
-
-        {/* Emoji */}
-        <div style={{
-          fontSize: isMobile ? '3rem' : '4rem',
-          textAlign: 'center',
-          marginBottom: '1rem'
-        }}>
-          {current.emoji}
-        </div>
-
-        {/* Title */}
-        <h2 style={{
-          fontSize: isMobile ? '1.8rem' : '2.2rem',
-          fontFamily: "'Poppins', sans-serif",
-          fontWeight: '700',
-          color: '#C71585',
-          textAlign: 'center',
-          marginBottom: '1.5rem',
-          textShadow: '1px 1px 2px rgba(255, 182, 193, 0.3)'
-        }}>
-          {current.title}
-        </h2>
-
-        {/* Reason Text */}
-        <p style={{
-          fontSize: isMobile ? '1.1rem' : '1.3rem',
-          fontFamily: "'Poppins', sans-serif",
-          color: '#4A4A4A',
-          textAlign: 'center',
-          lineHeight: '1.8',
-          marginBottom: '2rem'
-        }}>
-          {current.reason}
-        </p>
-
-        {/* Counter */}
-        <div style={{
-          textAlign: 'center',
-          fontSize: isMobile ? '0.9rem' : '1rem',
-          color: '#D8527B',
-          fontFamily: "'Poppins', sans-serif",
-          marginBottom: '1.5rem'
-        }}>
-          Reason {currentReason + 1} of {REASONS.length}
-        </div>
-
-        {/* Navigation Buttons */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: isMobile ? '1rem' : '1.5rem',
-          marginTop: '2rem'
-        }}>
-          <button
-            onClick={handlePrev}
-            disabled={currentReason === 0}
-            style={{
-              width: isMobile ? '45px' : '50px',
-              height: isMobile ? '45px' : '50px',
-              borderRadius: '50%',
-              background: currentReason === 0 
-                ? 'rgba(255, 182, 193, 0.3)' 
-                : 'rgba(236, 72, 153, 0.8)',
-              border: '2px solid rgba(236, 72, 153, 0.5)',
-              color: 'white',
-              fontSize: isMobile ? '1.2rem' : '1.5rem',
-              cursor: currentReason === 0 ? 'not-allowed' : 'pointer',
-              transition: 'all 0.3s ease',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              opacity: currentReason === 0 ? 0.5 : 1,
-              WebkitTapHighlightColor: 'transparent'
-            }}
-          >
-            ←
-          </button>
-
-          {/* Dot Indicators */}
+          {/* Gradient overlay */}
           <div style={{
-            display: 'flex',
-            gap: '8px',
-            alignItems: 'center'
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '200px',
+            background: current.color,
+            opacity: 0.15,
+            borderRadius: '2.2rem 2.2rem 0 0'
+          }} />
+
+          {/* Image/Video Display */}
+          <div style={{
+            width: '100%',
+            height: isMobile ? '220px' : '260px',
+            marginBottom: '1.5rem',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            position: 'relative',
+            boxShadow: '0 10px 30px rgba(199, 21, 133, 0.3)'
           }}>
-            {REASONS.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => handleDotClick(index)}
+            {current.isVideo ? (
+              <video
+                src={current.media}
+                autoPlay
+                loop
+                muted
+                playsInline
                 style={{
-                  width: currentReason === index ? '32px' : '10px',
-                  height: '10px',
-                  borderRadius: '10px',
-                  background: currentReason === index
-                    ? 'linear-gradient(135deg, #ec4899, #fbbf24)'
-                    : 'rgba(236, 72, 153, 0.3)',
-                  border: 'none',
-                  cursor: 'pointer',
-                  outline: 'none',
-                  transition: 'all 0.3s ease',
-                  boxShadow: currentReason === index
-                    ? '0 4px 12px rgba(236, 72, 153, 0.5)'
-                    : 'none',
-                  WebkitTapHighlightColor: 'transparent'
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
                 }}
               />
-            ))}
+            ) : (
+              <img
+                src={current.image}
+                alt={current.title}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
+            )}
           </div>
 
-          <button
-            onClick={handleNext}
-            disabled={currentReason === REASONS.length - 1}
-            style={{
-              width: isMobile ? '45px' : '50px',
-              height: isMobile ? '45px' : '50px',
-              borderRadius: '50%',
-              background: currentReason === REASONS.length - 1
-                ? 'rgba(255, 182, 193, 0.3)'
-                : 'rgba(236, 72, 153, 0.8)',
-              border: '2px solid rgba(236, 72, 153, 0.5)',
-              color: 'white',
-              fontSize: isMobile ? '1.2rem' : '1.5rem',
-              cursor: currentReason === REASONS.length - 1 ? 'not-allowed' : 'pointer',
-              transition: 'all 0.3s ease',
+          {/* Number Badge */}
+          <div style={{
+            position: 'absolute',
+            top: isMobile ? '1.5rem' : '2rem',
+            right: isMobile ? '1.5rem' : '2rem',
+            width: isMobile ? '50px' : '60px',
+            height: isMobile ? '50px' : '60px',
+            borderRadius: '50%',
+            background: current.color,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: isMobile ? '1.2rem' : '1.5rem',
+            fontWeight: '700',
+            color: 'white',
+            boxShadow: '0 5px 15px rgba(199, 21, 133, 0.3)',
+            zIndex: 3
+          }}>
+            {current.number}
+          </div>
+
+          {/* Emoji */}
+          <div style={{
+            fontSize: isMobile ? '2.5rem' : '3.5rem',
+            textAlign: 'center',
+            marginBottom: '0.8rem',
+            filter: 'drop-shadow(0 4px 12px rgba(236, 72, 153, 0.3))'
+          }}>
+            {current.emoji}
+          </div>
+
+          {/* Title */}
+          <h2 style={{
+            fontSize: isMobile ? '1.6rem' : '2rem',
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: '700',
+            color: '#fff',
+            textAlign: 'center',
+            marginBottom: '1rem',
+            textShadow: '0 3px 20px rgba(190, 18, 60, 0.4), 0 1px 3px rgba(0, 0, 0, 0.1)'
+          }}>
+            {current.title}
+          </h2>
+
+          {/* Reason Text */}
+          <p style={{
+            fontSize: isMobile ? '0.95rem' : '1.1rem',
+            fontFamily: "'Poppins', sans-serif",
+            fontStyle: 'italic',
+            color: 'rgba(255, 255, 255, 0.95)',
+            textAlign: 'center',
+            lineHeight: '1.6',
+            marginBottom: '1.5rem',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+          }}>
+            {current.reason}
+          </p>
+
+          {/* Counter */}
+          <div style={{
+            textAlign: 'center',
+            fontSize: isMobile ? '0.85rem' : '0.95rem',
+            color: 'rgba(255, 255, 255, 0.8)',
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: '500',
+            marginBottom: '1rem',
+            textShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+          }}>
+            Reason {currentReason + 1} of {REASONS.length}
+          </div>
+
+          {/* Navigation Buttons */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: isMobile ? '1rem' : '1.5rem',
+            marginTop: '1rem'
+          }}>
+            <button
+              onClick={handlePrev}
+              disabled={currentReason === 0}
+              style={{
+                width: isMobile ? '45px' : '50px',
+                height: isMobile ? '45px' : '50px',
+                borderRadius: '50%',
+                background: currentReason === 0 
+                  ? 'rgba(255, 255, 255, 0.2)' 
+                  : 'linear-gradient(90deg, #ec4899, #be123c)',
+                border: '2px solid rgba(255, 255, 255, 0.4)',
+                color: 'white',
+                fontSize: isMobile ? '1.2rem' : '1.5rem',
+                cursor: currentReason === 0 ? 'not-allowed' : 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: currentReason === 0 ? 0.5 : 1,
+                WebkitTapHighlightColor: 'transparent',
+                boxShadow: currentReason === 0 ? 'none' : '0 4px 15px rgba(236, 72, 153, 0.3)'
+              }}
+            >
+              ←
+            </button>
+
+            {/* Dot Indicators */}
+            <div style={{
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              opacity: currentReason === REASONS.length - 1 ? 0.5 : 1,
-              WebkitTapHighlightColor: 'transparent'
-            }}
-          >
-            →
-          </button>
+              gap: '8px',
+              alignItems: 'center'
+            }}>
+              {REASONS.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleDotClick(index)}
+                  style={{
+                    width: currentReason === index ? '32px' : '10px',
+                    height: '10px',
+                    borderRadius: '10px',
+                    background: currentReason === index
+                      ? 'linear-gradient(90deg, #ec4899, #fbbf24)'
+                      : 'rgba(255, 255, 255, 0.3)',
+                    border: 'none',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    transition: 'all 0.3s ease',
+                    boxShadow: currentReason === index
+                      ? '0 4px 12px rgba(236, 72, 153, 0.5)'
+                      : 'none',
+                    WebkitTapHighlightColor: 'transparent'
+                  }}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={handleNext}
+              disabled={currentReason === REASONS.length - 1}
+              style={{
+                width: isMobile ? '45px' : '50px',
+                height: isMobile ? '45px' : '50px',
+                borderRadius: '50%',
+                background: currentReason === REASONS.length - 1
+                  ? 'rgba(255, 255, 255, 0.2)'
+                  : 'linear-gradient(90deg, #ec4899, #be123c)',
+                border: '2px solid rgba(255, 255, 255, 0.4)',
+                color: 'white',
+                fontSize: isMobile ? '1.2rem' : '1.5rem',
+                cursor: currentReason === REASONS.length - 1 ? 'not-allowed' : 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: currentReason === REASONS.length - 1 ? 0.5 : 1,
+                WebkitTapHighlightColor: 'transparent',
+                boxShadow: currentReason === REASONS.length - 1 ? 'none' : '0 4px 15px rgba(236, 72, 153, 0.3)'
+              }}
+            >
+              →
+            </button>
+          </div>
         </div>
+
+        {/* Back Button */}
+        <button
+          onClick={() => navigate('/menu')}
+          onMouseEnter={(e) => {
+            if (!isMobile) {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 8px 35px rgba(236, 72, 153, 0.45)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!isMobile) {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 15px rgba(236, 72, 153, 0.3)';
+            }
+          }}
+          style={{
+            marginTop: isMobile ? '1.2rem' : '1.5rem',
+            padding: isMobile ? '0.8rem 2rem' : '1rem 2.5rem',
+            background: 'linear-gradient(90deg, #ec4899, #be123c)',
+            border: '2px solid rgba(255, 255, 255, 0.4)',
+            borderRadius: '50px',
+            color: 'white',
+            fontSize: isMobile ? '1rem' : '1.1rem',
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.25s ease',
+            boxShadow: '0 4px 15px rgba(236, 72, 153, 0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            outline: 'none',
+            zIndex: 10,
+            WebkitTapHighlightColor: 'transparent',
+            letterSpacing: '0.04em'
+          }}
+        >
+          ← Back to Menu
+        </button>
       </div>
-
-      {/* Back Button */}
-      <button
-        onClick={() => navigate('/menu')}
-        onMouseEnter={(e) => {
-          if (!isMobile) {
-            e.currentTarget.style.background = 'rgba(236, 72, 153, 0.9)';
-            e.currentTarget.style.transform = 'translateY(-3px)';
-            e.currentTarget.style.boxShadow = '0 8px 25px rgba(236, 72, 153, 0.4)';
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!isMobile) {
-            e.currentTarget.style.background = 'rgba(236, 72, 153, 0.7)';
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 15px rgba(199, 21, 133, 0.3)';
-          }
-        }}
-        style={{
-          marginTop: isMobile ? '2rem' : '3rem',
-          padding: isMobile ? '0.8rem 2rem' : '1rem 2.5rem',
-          background: 'rgba(236, 72, 153, 0.7)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          border: '2px solid rgba(255, 255, 255, 0.8)',
-          borderRadius: '50px',
-          color: 'white',
-          fontSize: isMobile ? '1rem' : '1.1rem',
-          fontFamily: "'Poppins', sans-serif",
-          fontWeight: '600',
-          cursor: 'pointer',
-          transition: 'all 0.3s ease',
-          boxShadow: '0 4px 15px rgba(199, 21, 133, 0.3)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          outline: 'none',
-          zIndex: 10,
-          WebkitTapHighlightColor: 'transparent'
-        }}
-      >
-        ← Back to Menu
-      </button>
-
-      <style>
-        {`
-          @keyframes float {
-            0%, 100% {
-              transform: translateY(0) rotate(0deg);
-            }
-            50% {
-              transform: translateY(-20px) rotate(10deg);
-            }
-          }
-        `}
-      </style>
-    </div>
+    </>
   );
 }

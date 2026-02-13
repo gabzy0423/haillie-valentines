@@ -9,6 +9,8 @@ import photo6 from './assets/images/gallery/photo6.jpg';
 import photo7 from './assets/images/gallery/photo7.jpg';
 import photo8 from './assets/images/gallery/photo8.jpg';
 import photo9 from './assets/images/gallery/photo9.jpg';
+import photo10 from './assets/images/gallery/photo10.gif'; 
+import photo11 from './assets/images/gallery/photo11.gif';
 
 export default function ValentinesGallery() {
   const navigate = useNavigate();
@@ -120,6 +122,23 @@ export default function ValentinesGallery() {
       caption: 'Date Day perfection',
       date: 'Oct 2025',
       category: 'dates',
+    },
+    {
+      id: 10,
+      url: photo10,
+      caption: 'Another goofy photobooth moment ❤️',
+      date: 'Feb 2026',
+      category: 'photo booth',
+    }, 
+    {
+
+      id: 11,
+      url: photo11,
+      caption: 'Pure happiness in one strip',
+      date: 'Feb 2026',
+      category: 'photo booth',
+
+
     }
   ];
 

@@ -83,16 +83,16 @@ Your Forever Person 💖`,
 
 I was thinking today about all the little things that make me fall in love with you over and over again.
 
-The way you sing in the shower, completely off-key but with total confidence. How you always save the last bite of your favorite food for me. The way your eyes light up when you talk about something you're passionate about. How you reach for my hand without even thinking about it.
+The way you sing, even when you’re shy… it makes me fall in love with you all over again. How you always save the last bite of your favorite food for me. The way your eyes light up when you talk about something you're passionate about. How you reach for my hand without even thinking about it.
 
-I love how you remember my coffee order, how you text me random memes that you know will make me laugh, how you leave little notes for me to find. The way you dance in the kitchen when you think no one's watching.
+I love how you remember my fav foods, How you send me random TikTok memes just because you know they’ll make me laugh, how you always kiss me before you go home. The way you dance when you think no one's watching.
 
 These aren't grand romantic gestures - they're better. They're the everyday magic that makes our love story uniquely ours. They're the moments I'll treasure forever, the memories I'll hold close to my heart.
 
 Thank you for all these beautiful little things.
 
 Love you more than words can say,
-Me 🥰`,
+Me mwhehe`,
       color: "#fbbf24",
       sealColor: "#f59e0b"
     },
@@ -108,8 +108,6 @@ They say home is where the heart is, and I finally understand what that means. B
 When I'm with you, the world feels right. The stress melts away, the noise fades, and everything else becomes background. You are my calm in the chaos, my light in the darkness, my peace in the storm.
 
 With you, I can be vulnerable. I can let my walls down. I can be silly and serious, strong and weak, all at the same time. You've created a space where I feel completely safe to be authentically me.
-
-You make ordinary moments extraordinary. Grocery shopping becomes an adventure. Lazy Sunday mornings become treasured memories. Even washing dishes together feels special when you're by my side.
 
 Thank you for being my home.
 
