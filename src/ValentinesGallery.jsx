@@ -144,7 +144,7 @@ export default function ValentinesGallery() {
 
   const CATEGORIES = [
     { id: 'all', label: 'All Memories'},
-    { id: 'dates', label: 'Date Nights' },
+    { id: 'dates', label: 'Date' },
     { id: 'photo booth', label: 'Photo Booth'},
     { id: 'candid', label: 'Silly Moments'}
   ];
