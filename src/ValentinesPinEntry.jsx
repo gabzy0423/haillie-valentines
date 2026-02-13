@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const CORRECT_PIN = '10172023';
+const CORRECT_PIN = '10172024';
 const HINT_2      = '2YRS NA TAYO HINDI MO PA DIN ALAM!!!';
 const HINT_3      = 'AYUKOOOOO NA HUWAG NA ITULOY';
 
@@ -15,7 +15,7 @@ export default function ValentinesPinEntry() {
   const [floatingHearts, setFloatingHearts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   
-  /* ── Generate non-overlapping hearts ── */
+
   useEffect(() => {
     const heartEmojis = ['❤️', '💝', '💗', '💖', '🌹', '💕'];
     const gridColumns = 6;
